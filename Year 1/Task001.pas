@@ -2,6 +2,7 @@
     t, i, k:integer;
 
 begin
+  
   read(t);
   
   s := t;
@@ -12,8 +13,8 @@ begin
     k := (2*i);
     f := f * (t*t)/(k-1)/(k-2);
     s := s + f;
-    
   end;
+
   writeln(s);
   writeln(sin(t));
 end.
