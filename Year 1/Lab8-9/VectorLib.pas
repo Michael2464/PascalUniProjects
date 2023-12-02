@@ -7,6 +7,7 @@ Interface
   Type vector = array[1..vectorSizeAmountIntegerHellYeah] of real;
 
   function AddVectors(a, b:vector):vector;
+  function MultiplyVectorsScalar(a, b:vector):real;
   function MultiplyVectors(a, b:vector):vector;
   function ProdVector(a:vector; b:real):vector;
   function ZeroVector():vector;
@@ -35,6 +36,16 @@ Implementation
       res[i] := a[i] * b[i];
 
     MultiplyVectors := res;
+  end;
+  
+  function MultiplyVectorsScalar(a, b:vector):real;
+  var res:real; i:integer;
+  begin
+    res := 0;
+    for i := 1 to vectorSizeAmountIntegerHellYeah do
+      res := res + a[i]*b[i];
+
+    MultiplyVectorsScalar := res;
   end;
 
   function ProdVector(a:vector; b:real):vector;

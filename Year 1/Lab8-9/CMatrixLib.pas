@@ -1,75 +1,95 @@
-﻿Unit MatrixLib;
+﻿Unit CMatrixLib;
 
 Interface
   uses ComplexLib;
   uses crt;
 
-  const n = 2;
-  Type matrix = array[1..n, 1..n] of complex;
+  const n = 3;
+  Type cMatrix = array[1..n, 1..n] of complex;
 
-  function AddMatrices(a, b:matrix):matrix;
-  function MultiplyMatrices(a, b:matrix):matrix;
-  function ProdMatrix(a:matrix; b:real):matrix;
-  function ZeroMatrix():matrix;
-  function OneMatrix():matrix;
-  function NormMatrix(a:matrix):real;
-  procedure MatrixUI();
-  procedure InputMatrix(var a:matrix);
-  procedure InputMatrixRandom(var a:matrix; min, max:real);
-  procedure OutputMatrix(var a:matrix);
+  function AddCMatrices(a, b:cMatrix):cMatrix;
+  function MultiplyCMatrices(a, b:cMatrix):cMatrix;
+  function MultiplyCMatricesScalar(a, b:cMatrix):cMatrix;
+  function ProdCMatrix(a:cMatrix; b:real):cMatrix;
+  function ZeroCMatrix():cMatrix;
+  function OneCMatrix():cMatrix;
+  function NormCMatrix(a:cMatrix):real;
+  procedure CMatrixUI();
+  procedure InputCMatrix(var a:cMatrix);
+  procedure InputCMatrixRandom(var a:cMatrix; min, max:real);
+  procedure OutputCMatrix(var a:cMatrix);
 
 Implementation
 
-  function AddMatrices(a, b:matrix):matrix;
-  var res:matrix; i,j:integer;
+  function AddCMatrices(a, b:cMatrix):cMatrix;
+  var res:cMatrix; i,j:integer;
   begin
     for i := 1 to n do
       for j := 1 to n do
         res[i][j] := AddComplex(a[i][j], b[i][j]);
 
-    AddMatrices := res;
+    AddCMatrices := res;
   end;
 
-  function MultiplyMatrices(a, b:matrix):matrix;
-  var res:matrix; i,j:integer;
+  function MultiplyCMatrices(a, b:cMatrix):cMatrix;
+  var res:cMatrix; i,j:integer;
   begin
     for i := 1 to n do
       for j := 1 to n do
         res[i][j] := MultiplyComplex(a[i][j], b[i][j]);
 
-    MultiplyMatrices := res;
+    MultiplyCMatrices := res;
+  end;
+  
+  function MultiplyCMatricesScalar(a, b:cMatrix):cMatrix;
+  var res:cMatrix; i,j,k:integer; compl:complex;
+  begin
+    for i := 1 to n do
+    begin
+      compl := ZeroComplex();
+      for j := 1 to n do
+      begin
+        for k:= 1 to n do
+        begin
+          compl := AddComplex(compl, MultiplyComplex(a[i][k], b[k][j]));
+        end;
+        res[i][j] := compl;
+      end;
+    end;
+
+    MultiplyCMatricesScalar := res;
   end;
 
-  function ProdMatrix(a:matrix; b:real):matrix;
-  var res:matrix; i,j:integer;
+  function ProdCMatrix(a:cMatrix; b:real):cMatrix;
+  var res:cMatrix; i,j:integer;
   begin
     for i := 1 to n do
       for j := 1 to n do
         res[i][j] := ProdComplex(a[i][j], b);
-    ProdMatrix := res;
+    ProdCMatrix := res;
   end;
 
-  function ZeroMatrix():matrix;
-  var res:matrix; i,j:integer;
+  function ZeroCMatrix():cMatrix;
+  var res:cMatrix; i,j:integer;
   begin
     for i := 1 to n do
       for j := 1 to n do
         res[i][j] := ZeroComplex();
 
-    ZeroMatrix := res;
+    ZeroCMatrix := res;
   end;
 
-  function OneMatrix():matrix;
-  var res:matrix; i,j:integer;
+  function OneCMatrix():cMatrix;
+  var res:cMatrix; i,j:integer;
   begin
     for i := 1 to n do
       for j := 1 to n do
         res[i][j] := OneComplex();
 
-    OneMatrix := res;
+    OneCMatrix := res;
   end;
   
-  function NormMatrix(a:matrix):real;
+  function NormCMatrix(a:cMatrix):real;
   var res:real; i,j:integer;
   begin
     res := 0;
@@ -77,11 +97,11 @@ Implementation
       for j := 1 to n do
         res := res + sqr(NormComplex(a[i][j]));
     res := sqrt(res);
-    NormMatrix := res;
+    NormCMatrix := res;
   end;
   
-  procedure MatrixUI();
-  var input, wait:integer; a,b,c:matrix; m:real;
+  procedure CMatrixUI();
+  var input, wait:integer; a,b,c:cMatrix; m:real;
   begin
     input := -1;
     
@@ -91,7 +111,7 @@ Implementation
       writeln('(Complex matrix)');
       writeln('Enter option:');
       writeln('1) Add matrices');
-      writeln('2) Multiply matrices');
+      writeln('2) Multiply matrices scalar');
       writeln('3) Prod matrix');
       writeln('4) Zero matrix');
       writeln('5) One matrix');
@@ -116,12 +136,12 @@ Implementation
       if(input = 2) then
       begin
         ClrScr;
-        writeln('Multiply matrices');
+        writeln('Multiply matrices scalar');
         writeln('First matrix ', n, 'x', n, ':');
         InputMatrix(a);
         writeln('Second matrix ', n, 'x', n, ':');
         InputMatrix(b);
-        c := MultiplyMatrices(a, b);
+        c := MultiplyMatricesScalar(a, b);
         writeln('Result:');
         OutputMatrix(c);
         writeln();

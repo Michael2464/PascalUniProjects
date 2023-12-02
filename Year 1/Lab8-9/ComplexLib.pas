@@ -166,10 +166,10 @@ Implementation
   
   procedure InputComplex(var a:complex);
   begin
-    write('Enter i: ');
-    read(a.i);
     write('Enter r: ');
     read(a.r);
+    write('Enter i: ');
+    read(a.i);
   end;
   
   procedure InputComplexRandom(var a:complex; min,max:real);
