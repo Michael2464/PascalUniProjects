@@ -1,8 +1,9 @@
 ﻿uses ComplexLib;
 uses MatrixLib;
+uses CMatrixLib;
 uses VectorLib;
 uses CVectorLib;
-uses Crt;
+uses crt;
 
 var input:integer;
 
@@ -14,7 +15,7 @@ begin
     ClrScr;
     writeln('Enter option:');
     writeln('1) Complex numbers');
-    writeln('2) Complex matrices');
+    writeln('2) CMatrices');
     writeln('3) Matrices');
     writeln('4) Vectors');
     writeln('5) CVectors');

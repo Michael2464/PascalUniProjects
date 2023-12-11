@@ -175,6 +175,7 @@ Implementation
   begin
     for i := 1 to vectorSizeAmountIntegerHellYeah do
     begin
+      write('[', i, ']: ');
       InputComplex(a[i]);
     end;
   end;

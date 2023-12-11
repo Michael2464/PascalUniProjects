@@ -185,7 +185,7 @@ Implementation
   begin
     for i := 1 to vectorSizeAmountIntegerHellYeah do
     begin
-      write('Enter a number: ');
+      write('[', i, ']: ');
       read(a[i]);      
     end;
   end;
