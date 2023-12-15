@@ -100,7 +100,7 @@ Implementation
       writeln('(Complex matrix)');
       writeln('Enter option:');
       writeln('1) Add matrices');
-      writeln('2) Multiply matrices scalar');
+      writeln('2) Multiply matrices');
       writeln('3) Prod matrix');
       writeln('4) Zero matrix');
       writeln('5) One matrix');

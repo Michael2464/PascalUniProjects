@@ -36,10 +36,10 @@ Implementation
     begin
       for j := 1 to n do
       begin
-        num := 1;
+        num := 0;
         for k:= 1 to n do
         begin
-          num := num * a[i][k] * b[k][j];
+          num := num + a[i][k] * b[k][j];
         end;
         res[i][j] := num;
       end;
@@ -102,7 +102,7 @@ Implementation
       writeln('(Matrix)');
       writeln('Enter option:');
       writeln('1) Add matrices');
-      writeln('2) Multiply matrices scalar');
+      writeln('2) Multiply matrices');
       writeln('3) Prod matrix');
       writeln('4) Zero matrix');
       writeln('5) One matrix');
@@ -212,14 +212,10 @@ Implementation
   var i,j:integer;
   begin
     for i := 1 to n do
-    begin
       for j := 1 to n do
       begin
-        //goToXY(j+7, i);
+        goToXY(3*j+7, i+20);
         write(a[i][j]);
-        if(j <> n) then write(' | ');
       end;
-      writeln();
-    end;
   end;
 end.

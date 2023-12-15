@@ -4,11 +4,13 @@ Interface
   uses Crt;
   uses ComplexLib;
 
-  const vectorSizeAmountIntegerHellYeah = 4;
+  const vectorSizeAmountIntegerHellYeah = 3;
   Type cVector = array[1..vectorSizeAmountIntegerHellYeah] of complex;
 
   function AddCVectors(a, b:cVector):cVector;
   function MultiplyCVectors(a, b:cVector):cVector;
+  function MultiplyMultipleCVectors(a, b, z:cVector):complex;
+  function MultiplyCVectorsScalar(a, b:cVector):complex;
   function ProdCVector(a:cVector; b:real):cVector;
   function ZeroCVector():cVector;
   function OneCVector():cVector;
@@ -29,13 +31,38 @@ Implementation
     AddCVectors := res;
   end;
 
+  function MultiplyMultipleCVectors(a, b, z:cVector):complex;
+  var res:cVector; realRes:complex; i:integer;
+  begin
+    res[1] := (AddComplex(MultiplyComplex(a[2], b[3]), ProdComplex(MultiplyComplex(a[3],b[2]), -1)));
+    res[2] := (AddComplex(MultiplyComplex(a[1], b[3]), ProdComplex(MultiplyComplex(a[3],b[1]), -1)));
+    res[2] := ProdComplex(res[2], -1);
+    res[3] := (AddComplex(MultiplyComplex(a[1], b[2]), ProdComplex(MultiplyComplex(a[2],b[1]), -1)));
+    
+    realRes := MultiplyCVectorsScalar(res, z);
+    
+    MultiplyMultipleCVectors := realRes;
+  end;
+  
   function MultiplyCVectors(a, b:cVector):cVector;
   var res:cVector; i:integer;
   begin
-    for i := 1 to vectorSizeAmountIntegerHellYeah do
-      res[i] := MultiplyComplex(a[i], b[i]);
+    res[1] := (AddComplex(MultiplyComplex(a[2], b[3]), ProdComplex(MultiplyComplex(a[3],b[2]), -1)));
+    res[2] := (AddComplex(MultiplyComplex(a[1], b[3]), ProdComplex(MultiplyComplex(a[3],b[1]), -1)));
+    res[2] := ProdComplex(res[2], -1);
+    res[3] := (AddComplex(MultiplyComplex(a[1], b[2]), ProdComplex(MultiplyComplex(a[2],b[1]), -1)));
 
     MultiplyCVectors := res;
+  end;
+  
+  function MultiplyCVectorsScalar(a, b:cVector):complex;
+  var res:complex; i:integer;
+  begin
+    res := ZeroComplex();
+    for i := 1 to vectorSizeAmountIntegerHellYeah do
+      res := AddComplex(res, MultiplyComplex(a[i], b[i]));
+
+    MultiplyCVectorsScalar := res;
   end;
 
   function ProdCVector(a:cVector; b:real):cVector;
@@ -74,7 +101,7 @@ Implementation
   
   procedure CVectorUI();
   var input, wait:integer; 
-  var a,b,c:cVector; m:real;
+  var a,b,c,z:cVector; m:real; compl:complex;
   begin
     input := -1;
     while(input <> 0) do
@@ -84,10 +111,12 @@ Implementation
       writeln('Enter option:');
       writeln('1) Add CVectors');
       writeln('2) Multiply CVectors');
-      writeln('3) Prod CVector');
-      writeln('4) Zero CVector');
-      writeln('5) One CVector');
-      writeln('6) Norm CVector');
+      writeln('3) Multiply Multiple CVectors');
+      writeln('4) Multiply CVectors Scalar');
+      writeln('5) Prod CVector');
+      writeln('6) Zero CVector');
+      writeln('7) One CVector');
+      writeln('8) Norm CVector');
       writeln('0) Back');
       read(input);
       
@@ -124,6 +153,38 @@ Implementation
       if(input = 3) then
       begin
         ClrScr;
+        writeln('Multiply Multiple CVectors');
+        writeln('First CVector:');
+        InputCVector(a);
+        writeln('Second CVector:');
+        InputCVector(b);
+        writeln('Third CVector:');
+        InputCVector(z);
+        c := MultiplyCVectors(MultiplyCVectors(a, b), z);
+        write('Result: ');
+        OutputCVector(c);
+        writeln();
+        read(wait);
+      end;
+      
+      if(input = 4) then
+      begin
+        ClrScr;
+        writeln('Multiply CVectors Scalar');
+        writeln('First CVector:');
+        InputCVector(a);
+        writeln('Second CVector:');
+        InputCVector(b);
+        compl := MultiplyCVectorsScalar(a, b);
+        write('Result: ');
+        OutputComplex(compl);
+        writeln();
+        read(wait);
+      end;
+      
+      if(input = 5) then
+      begin
+        ClrScr;
         writeln('Prod CVector');
         writeln('CVector:');
         InputCVector(a);
@@ -136,7 +197,7 @@ Implementation
         read(wait);
       end;
       
-      if(input = 4) then
+      if(input = 6) then
       begin
         ClrScr;
         writeln('Zero CVector:');
@@ -146,7 +207,7 @@ Implementation
         read(wait);
       end;
       
-      if(input = 5) then
+      if(input = 7) then
       begin
         ClrScr;
         writeln('One CVector:');
@@ -156,7 +217,7 @@ Implementation
         read(wait);
       end;
       
-      if(input = 6) then
+      if(input = 8) then
       begin
         ClrScr;
         writeln('Norm CVector');
