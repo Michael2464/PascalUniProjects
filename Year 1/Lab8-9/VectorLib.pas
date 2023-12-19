@@ -7,9 +7,9 @@ Interface
   Type vector = array[1..vectorSizeAmountIntegerHellYeah] of real;
 
   function AddVectors(a, b:vector):vector;
-  function MultiplyVectorsScalar(a, b:vector):real;
+  function ScalarProductOfVectors(a, b:vector):real;
   function MultiplyVectors(a, b:vector):vector;
-  function MultiplyMultipleVectors(a, b, z:vector):real;
+  function MixedProductOfVectors(a, b, z:vector):real;
   function ProdVector(a:vector; b:real):vector;
   function ZeroVector():vector;
   function OneVector():vector;
@@ -40,26 +40,23 @@ Implementation
     MultiplyVectors := res;
   end;
   
-  function MultiplyMultipleVectors(a, b, z:vector):real;
+  function MixedProductOfVectors(a, b, z:vector):real;
   var res:vector; realRes:real; i:integer;
   begin
-    res[1] :=  (a[2] * b[3] - a[3] * b[2]);
-    res[2] := -(a[1] * b[3] - a[3] * b[1]);
-    res[3] := (a[1] * b[2] - a[2] * b[1]);
+    res := MultiplyVectors(a, b);
+    realRes := ScalarProductOfVectors(res, z);
     
-    realRes := MultiplyVectorsScalar(res, z);
-    
-    MultiplyMultipleVectors := realRes;
+    MixedProductOfVectors := realRes;
   end;
   
-  function MultiplyVectorsScalar(a, b:vector):real;
+  function ScalarProductOfVectors(a, b:vector):real;
   var res:real; i:integer;
   begin
     res := 0;
     for i := 1 to vectorSizeAmountIntegerHellYeah do
       res := res + a[i]*b[i];
 
-    MultiplyVectorsScalar := res;
+    ScalarProductOfVectors := res;
   end;
 
   function ProdVector(a:vector; b:real):vector;
@@ -108,8 +105,8 @@ Implementation
       writeln('Enter option:');
       writeln('1) Add vectors');
       writeln('2) Multiply vectors');
-      writeln('3) Multiply multiple vectors');
-      writeln('4) Multiply vectors scalar');
+      writeln('3) Mixed Product of Vectors');
+      writeln('4) Scalar Product of Vectors');
       writeln('5) Prod vector');
       writeln('6) Zero vector');
       writeln('7) One vector');
@@ -150,29 +147,28 @@ Implementation
       if(input = 3) then
       begin
         ClrScr;
-        writeln('Multiply multiple vectors');
+        writeln('Mixed Product of Vectors');
         writeln('First vector:');
         InputVector(a);
         writeln('Second vector:');
         InputVector(b);
         writeln('Third vector:');
         InputVector(z);
-        s := MultiplyMultipleVectors(a, b, z);
+        s := MixedProductOfVectors(a, b, z);
         write('Result: ');
-        write(s);
-        writeln();
+        writeln(s);
         read(wait);
       end;
       
       if(input = 4) then
       begin
         ClrScr;
-        writeln('Multiply vectors scalar');
+        writeln('Scalar Product of Vectors');
         writeln('First vector:');
         InputVector(a);
         writeln('Second vector:');
         InputVector(b);
-        s := MultiplyVectorsScalar(a, b);
+        s := ScalarProductOfVectors(a, b);
         write('Result: ');
         writeln(s);
         read(wait);
@@ -220,8 +216,7 @@ Implementation
         writeln('Input vector:');
         InputVector(a);
         write('Result: ');
-        write(NormVector(a));
-        writeln();
+        writeln(NormVector(a));
         read(wait);
       end;
     end;

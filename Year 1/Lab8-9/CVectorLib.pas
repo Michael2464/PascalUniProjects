@@ -9,8 +9,8 @@ Interface
 
   function AddCVectors(a, b:cVector):cVector;
   function MultiplyCVectors(a, b:cVector):cVector;
-  function MultiplyMultipleCVectors(a, b, z:cVector):complex;
-  function MultiplyCVectorsScalar(a, b:cVector):complex;
+  function MixedProductOfCVectors(a, b, z:cVector):complex;
+  function ScalarProductOfCVectors(a, b:cVector):complex;
   function ProdCVector(a:cVector; b:real):cVector;
   function ZeroCVector():cVector;
   function OneCVector():cVector;
@@ -31,17 +31,13 @@ Implementation
     AddCVectors := res;
   end;
 
-  function MultiplyMultipleCVectors(a, b, z:cVector):complex;
+  function MixedProductOfCVectors(a, b, z:cVector):complex;
   var res:cVector; realRes:complex; i:integer;
   begin
-    res[1] := (AddComplex(MultiplyComplex(a[2], b[3]), ProdComplex(MultiplyComplex(a[3],b[2]), -1)));
-    res[2] := (AddComplex(MultiplyComplex(a[1], b[3]), ProdComplex(MultiplyComplex(a[3],b[1]), -1)));
-    res[2] := ProdComplex(res[2], -1);
-    res[3] := (AddComplex(MultiplyComplex(a[1], b[2]), ProdComplex(MultiplyComplex(a[2],b[1]), -1)));
+    res := MultiplyCVectors(a, b);
+    realRes := ScalarProductOfCVectors(res, z);
     
-    realRes := MultiplyCVectorsScalar(res, z);
-    
-    MultiplyMultipleCVectors := realRes;
+    MixedProductOfCVectors := realRes;
   end;
   
   function MultiplyCVectors(a, b:cVector):cVector;
@@ -55,14 +51,14 @@ Implementation
     MultiplyCVectors := res;
   end;
   
-  function MultiplyCVectorsScalar(a, b:cVector):complex;
+  function ScalarProductOfCVectors(a, b:cVector):complex;
   var res:complex; i:integer;
   begin
     res := ZeroComplex();
     for i := 1 to vectorSizeAmountIntegerHellYeah do
       res := AddComplex(res, MultiplyComplex(a[i], b[i]));
 
-    MultiplyCVectorsScalar := res;
+    ScalarProductOfCVectors := res;
   end;
 
   function ProdCVector(a:cVector; b:real):cVector;
@@ -94,7 +90,7 @@ Implementation
   begin
     res := 0;
     for i := 1 to vectorSizeAmountIntegerHellYeah do
-      res := res + NormComplex(a[i]);
+      res := res + sqr(NormComplex(a[i]));
     res := sqrt(res);
     NormCVector := res;
   end;
@@ -111,8 +107,8 @@ Implementation
       writeln('Enter option:');
       writeln('1) Add CVectors');
       writeln('2) Multiply CVectors');
-      writeln('3) Multiply Multiple CVectors');
-      writeln('4) Multiply CVectors Scalar');
+      writeln('3) Mixed Product of CVectors');
+      writeln('4) Scalar Product of CVectors');
       writeln('5) Prod CVector');
       writeln('6) Zero CVector');
       writeln('7) One CVector');
@@ -153,16 +149,16 @@ Implementation
       if(input = 3) then
       begin
         ClrScr;
-        writeln('Multiply Multiple CVectors');
+        writeln('Mixed Product of CVectors');
         writeln('First CVector:');
         InputCVector(a);
         writeln('Second CVector:');
         InputCVector(b);
         writeln('Third CVector:');
         InputCVector(z);
-        c := MultiplyCVectors(MultiplyCVectors(a, b), z);
+        compl := MixedProductOfCVectors(a, b, z);
         write('Result: ');
-        OutputCVector(c);
+        OutputComplex(compl);
         writeln();
         read(wait);
       end;
@@ -170,12 +166,12 @@ Implementation
       if(input = 4) then
       begin
         ClrScr;
-        writeln('Multiply CVectors Scalar');
+        writeln('Scalar Product of CVectors');
         writeln('First CVector:');
         InputCVector(a);
         writeln('Second CVector:');
         InputCVector(b);
-        compl := MultiplyCVectorsScalar(a, b);
+        compl := ScalarProductOfCVectors(a, b);
         write('Result: ');
         OutputComplex(compl);
         writeln();

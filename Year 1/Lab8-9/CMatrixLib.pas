@@ -72,7 +72,10 @@ Implementation
   var res:cMatrix; i,j:integer;
   begin
     for i := 1 to n do
-      for j := 1 to n do
+      for j := i to i do
+        res[i][j] := OneComplex();
+    for i := 1 to n do
+      for j := i to i do
         res[i][j] := OneComplex();
 
     OneCMatrix := res;
