@@ -6,13 +6,16 @@ Interface
     r:real;
     i:real;
   end;
-
+  const eps = 0.001;
+  
   function AddComplex(a, b:complex):complex;
   function MultiplyComplex(a, b:complex):complex;
   function ProdComplex(a:complex; b:real):complex;
   function ZeroComplex():complex;
   function OneComplex():complex;
   function NormComplex(a:complex):real;
+  function ComplexSin(a:complex):complex;
+  function ComplexCos(a:complex):complex;
   procedure ComplexUI();
   procedure InputComplex(var a:complex);
   procedure InputComplexRandom(var a:complex; min,max:real);
@@ -67,6 +70,47 @@ Implementation
     NormComplex := res;
   end;
   
+  function ComplexCos(a:complex):complex;
+  var p,s,a2:complex; m,k:integer;
+  begin
+    a2 := MultiplyComplex(a, a);
+    
+    p := OneComplex();  
+    s := OneComplex();
+  
+    k := 1;
+    
+    while(NormComplex(p) > eps) do
+    begin
+        m := 2 * k;
+        p := MultiplyComplex(p, ProdComplex(a2, -1/(m)/(m-1)));
+        s := AddComplex(s, p);
+        k := k + 1;
+    end;
+    ComplexCos := p;
+  end;
+    
+  function ComplexSin(a:complex):complex;
+  var p,s, a2:complex; m,k:integer;
+  begin
+    a2 := MultiplyComplex(a, a);
+    
+    p := a;  
+    s := a;
+  
+    k := 2;
+    
+    while(NormComplex(p) > eps) do
+    begin
+      m := 2 * k;
+      p := MultiplyComplex(p, ProdComplex(a2, -1/(m-1)/(m-2)));
+      s := AddComplex(s, p);
+      k := k + 1;
+    end;
+    
+    ComplexSin := p;
+  end;
+  
   procedure ComplexUI();
   var input, wait:integer; 
   var a,b,c:complex; n:real;
@@ -83,6 +127,8 @@ Implementation
       writeln('4) Zero complex number');
       writeln('5) One complex number');
       writeln('6) Norm complex number');
+      writeln('7) Complex Sin');
+      writeln('8) Complex Cos');
       writeln('0) Back');
       read(input);
       
@@ -159,6 +205,30 @@ Implementation
         InputComplex(a);
         write('Result: ');
         write(NormComplex(a));
+        writeln();
+        read(wait);
+      end;
+      
+      if(input = 7) then
+      begin
+        ClrScr;
+        writeln('Complex Sin');
+        InputComplex(a);
+        write('Result: ');
+        b := ComplexSin(a);
+        OutputComplex(b);
+        writeln();
+        read(wait);
+      end;
+      
+      if(input = 8) then
+      begin
+        ClrScr;
+        writeln('Complex Cos');
+        InputComplex(a);
+        write('Result: ');
+        b := ComplexCos(a);
+        OutputComplex(b);
         writeln();
         read(wait);
       end;
