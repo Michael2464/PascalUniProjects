@@ -7,6 +7,8 @@ Interface
     Next: PtrQ;
   end;
   
+  var top, left, right:PtrQ;
+  
   procedure PushQueue(top, left, right:PtrQ);
   procedure ReadQueue(top, left, right:PtrQ);
 
@@ -16,7 +18,6 @@ Implementation
   var ok:boolean; val:integer;
   begin
     ok := True;
-    New(top);
     
     while ok do
     begin
@@ -29,6 +30,7 @@ Implementation
       end;
       else
       begin
+        New(top);
         top^.Data := val;
         right := top;
         left := top;
@@ -36,9 +38,9 @@ Implementation
     end;
   end;
   
-  procedure ReadStack(top, bottom:Ptr);
+  procedure ReadQueue(top, right, left:PtrQ);
   begin
-    bottom := top;
+    //bottom := top;
     while bottom <> NIL do
     begin
       writeln(bottom^.Data);
