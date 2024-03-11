@@ -12,6 +12,6 @@ begin
   PushStack(top2, bottom2);
   writeln('-----');
   ConnectStacks(top1, top2);
-  ReadStack(bottom2);
+  ReadReversedStack(bottom2);
   
 end.

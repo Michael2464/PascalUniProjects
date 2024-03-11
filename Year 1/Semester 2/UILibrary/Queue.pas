@@ -28,7 +28,7 @@ Implementation
         ok := False;
         top^.Next := NIL;
       end;
-      else
+      else 
       begin
         New(top);
         top^.Data := val;
