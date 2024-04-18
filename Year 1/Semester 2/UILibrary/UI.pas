@@ -4,6 +4,7 @@ uses CMatrixLib;
 uses VectorLib;
 uses CVectorLib;
 uses Stack;
+uses StudentMenu;
 uses crt;
 
 var input:integer;
@@ -24,6 +25,7 @@ begin
     writeln('4) Vectors');
     writeln('5) CVectors');
     writeln('6) Stack');
+    writeln('7) Student Menu');
     writeln('0) Exit');
     read(input);
     
@@ -34,6 +36,7 @@ begin
       4: VectorUI();
       5: CVectorUI();
       6: StackUI(topStack1, bottomStack1, topStack2, bottomStack2);
+      7: StudentMenuUI();
     end;
   end;
   

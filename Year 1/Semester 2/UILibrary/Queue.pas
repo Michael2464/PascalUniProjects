@@ -27,7 +27,7 @@ Implementation
       begin
         ok := False;
         top^.Next := NIL;
-      end;
+      end
       else 
       begin
         New(top);
@@ -38,9 +38,10 @@ Implementation
     end;
   end;
   
-  procedure ReadQueue(top, right, left:PtrQ);
+  procedure ReadQueue(top, left, right:PtrQ);
+  var bottom:PtrQ;
   begin
-    //bottom := top;
+    bottom := top;
     while bottom <> NIL do
     begin
       writeln(bottom^.Data);

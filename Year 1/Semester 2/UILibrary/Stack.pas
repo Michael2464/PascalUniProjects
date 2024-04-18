@@ -8,20 +8,44 @@ Interface
     Next: PtrS;
   end;
   
+  procedure PushNewStack(var top, bottom: PtrS);
   procedure PushStack(var top, bottom: PtrS);
   procedure PopStack(var top, bottom: PtrS);
   procedure ReadStack(var bottom: PtrS);
-  procedure ReadReversedStack(var bottom: PtrS);
+  procedure ReverseStack(var top: PtrS);
   procedure ConnectStacks(var bottom, top:PtrS);
   procedure StackUI(var top1, bottom1, top2, bottom2: PtrS);
 
 Implementation
-
   procedure PushStack(var top, bottom: PtrS);
   var ok:boolean; val:integer;
-  
   begin
     ok := True;
+    
+    while ok do
+    begin
+      write('Enter Data: ');
+      read(val);
+      if val = 999 then
+        Ok := false
+      else
+      begin
+        New(bottom);
+        bottom^.Next := top;
+        bottom^.Data := val;
+        top := bottom;
+      end;
+    end;
+  end;
+  
+  procedure PushNewStack(var top, bottom: PtrS);
+  var ok:boolean; val:integer;
+  begin
+    ok := True;
+    
+    while bottom <> NIL do
+      bottom := bottom^.Next;
+    top := bottom;   
     
     while ok do
     begin
@@ -59,21 +83,33 @@ Implementation
   end;
   
   procedure ReadStack(var bottom: PtrS);
+  var bottomSave: PtrS;
   begin
-    while bottom <> NIL do
+    bottomSave := bottom;
+    
+    while bottomSave <> NIL do
     begin
-      writeln(bottom^.Data);
-      bottom := bottom^.Next;
+      writeln(bottomSave^.Data);
+      bottomSave := bottomSave^.Next;
     end;
   end;  
   
-  procedure ReadReversedStack(var bottom: PtrS);
+  procedure ReverseStack(var top: PtrS);
+  var bottomSave: PtrS;
+  var topNew, bottomNew: PtrS;
   begin
-    while bottom <> NIL do
+    bottomSave := top;
+    
+    while bottomSave <> NIL do
     begin
-      writeln(bottom^.Data);
-      bottom := bottom^.Next;
+      New(bottomNew);
+      bottomNew^.Next := topNew;
+      bottomNew^.Data := bottomSave^.Data;
+      topNew := bottomNew;
+      bottomSave := bottomSave^.Next;
     end;
+    
+    top := topNew;
   end;
   
   procedure ConnectStacks(var bottom, top:PtrS);
@@ -86,6 +122,7 @@ Implementation
   procedure StackUI(var top1, bottom1, top2, bottom2: PtrS);
   var input, wait:integer; 
   var n:real;
+  var top1_, bottom1_, top2_, bottom2_: PtrS; // to make copies of stacks if needed. 
   begin
     input := -1;
     while(input <> 0) do
@@ -93,14 +130,24 @@ Implementation
       ClrScr;
       writeln('(Stack)');
       writeln('Enter option:');
-      writeln('1) Push stack');
-      writeln('2) Pop stack');
-      writeln('3) Read stack');
-      writeln('4) Connect stacks');
+      writeln('1) Push new stack');
+      writeln('2) Push stack');
+      writeln('3) Pop stack');
+      writeln('4) Read stack');
+      writeln('5) Reverse stack');
+      writeln('6) Connect stacks');
       writeln('0) Back');
       read(input);
       
       if(input = 1) then
+      begin
+        ClrScr;
+        writeln('Push new elements to the stack');
+        PushNewStack(top1, bottom1);
+        read(wait);
+      end;
+      
+      if(input = 2) then
       begin
         ClrScr;
         writeln('Push elements to the stack');
@@ -108,7 +155,7 @@ Implementation
         read(wait);
       end;
       
-      if(input = 2) then
+      if(input = 3) then
       begin
         ClrScr;
         writeln('Pop elements from the stack');
@@ -116,7 +163,7 @@ Implementation
         read(wait);
       end;
       
-      if(input = 3) then
+      if(input = 4) then
       begin
         ClrScr;
         writeln('Read elements from the stack');
@@ -124,14 +171,29 @@ Implementation
         read(wait);
       end;
       
-      if(input = 4) then
+      if(input = 5) then
+      begin
+        ClrScr;
+        writeln('Stack is reversed');
+        ReverseStack(bottom1);
+        read(wait);
+      end;
+      
+      if(input = 6) then
       begin
         ClrScr;
         writeln('Connect two stacks');
         writeln('First:');
-        PushStack(top1, bottom1);
+        top1_ := top1;
+        bottom1_ := bottom1;
+        top2_ := top2;
+        bottom2_ := bottom2;
+        
+        PushNewStack(top1_, bottom1_);
         writeln('Second:');
-        PushStack(top2, bottom2);
+        PushNewStack(top2_, bottom2_);
+        ConnectStacks(top1_, top2_);
+        ReadStack(bottom2_);
         read(wait);
       end;
     end;
