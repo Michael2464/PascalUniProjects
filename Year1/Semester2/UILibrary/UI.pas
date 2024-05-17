@@ -4,7 +4,11 @@ uses CMatrixLib;
 uses VectorLib;
 uses CVectorLib;
 uses Stack;
-uses StudentMenu;
+uses Queue;
+uses StudentMenu1x;
+uses StudentMenu2x;
+uses StudentFile;
+uses Tree;
 uses crt;
 
 var input:integer;
@@ -25,7 +29,12 @@ begin
     writeln('4) Vectors');
     writeln('5) CVectors');
     writeln('6) Stack');
-    writeln('7) Student Menu');
+    writeln('7) Queue');
+    writeln('8) Student Menu 1x');
+    writeln('9) Student Menu 2x');
+    writeln('10) Student File');
+    writeln('11) Tree');
+    writeln('---------------');
     writeln('0) Exit');
     read(input);
     
@@ -36,7 +45,11 @@ begin
       4: VectorUI();
       5: CVectorUI();
       6: StackUI(topStack1, bottomStack1, topStack2, bottomStack2);
-      7: StudentMenuUI();
+      7: QueueUI();
+      8: StudentMenu1xUI();
+      9: StudentMenu2xUI();
+      10: StudentFileUI();
+      11: TreeUI();
     end;
   end;
   

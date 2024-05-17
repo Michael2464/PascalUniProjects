@@ -1,4 +1,7 @@
-﻿Unit StudentMenu;
+﻿Unit StudentMenu2x;
+
+// drop out students with certain amount of 2s
+// retake exams by changing 2s to 4s or 5s 
 
 Interface
   uses Stack;
@@ -24,7 +27,7 @@ Interface
    procedure CreateVerticalMenu(var vertical: PtrVertical);
    procedure ChooseVerticalMenu;
    procedure ReadVerticalMenu(var vertical: PtrVertical; n:integer);
-   procedure StudentMenuUI;
+   procedure StudentMenu2xUI;
    
 Implementation
 
@@ -119,7 +122,7 @@ Implementation
     end;
   end;
   
-  procedure StudentMenuUI;
+  procedure StudentMenu2xUI;
   var input, wait:integer; 
   var n:real;
   begin
