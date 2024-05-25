@@ -2,6 +2,7 @@
 
 Interface
   uses crt;
+  
   Type PtrS = ^Stack_;
   Stack_ = record
     Data: integer;
@@ -17,6 +18,13 @@ Interface
   procedure StackUI(var top1, bottom1, top2, bottom2: PtrS);
 
 Implementation
+
+  procedure Wait;
+  begin
+    repeat until KeyPressed;
+      while KeyPressed do ReadKey
+  end;
+
   procedure PushStack(var top, bottom: PtrS);
   var ok:boolean; val:integer;
   begin
@@ -120,7 +128,7 @@ Implementation
   end;
   
   procedure StackUI(var top1, bottom1, top2, bottom2: PtrS);
-  var input, wait:integer; 
+  var input:integer; 
   var n:real;
   var top1_, bottom1_, top2_, bottom2_: PtrS; // to make copies of stacks if needed. 
   begin
@@ -144,7 +152,7 @@ Implementation
         ClrScr;
         writeln('Push new elements to the stack');
         PushNewStack(top1, bottom1);
-        read(wait);
+        Wait();
       end;
       
       if(input = 2) then
@@ -152,7 +160,7 @@ Implementation
         ClrScr;
         writeln('Push elements to the stack');
         PushStack(top1, bottom1);
-        read(wait);
+        Wait();
       end;
       
       if(input = 3) then
@@ -160,7 +168,7 @@ Implementation
         ClrScr;
         writeln('Pop elements from the stack');
         PopStack(top1, bottom1);
-        read(wait);
+        Wait();
       end;
       
       if(input = 4) then
@@ -168,7 +176,7 @@ Implementation
         ClrScr;
         writeln('Read elements from the stack');
         ReadStack(bottom1);
-        read(wait);
+        Wait();
       end;
       
       if(input = 5) then
@@ -176,7 +184,7 @@ Implementation
         ClrScr;
         writeln('Stack is reversed');
         ReverseStack(bottom1);
-        read(wait);
+        Wait();
       end;
       
       if(input = 6) then
@@ -194,7 +202,7 @@ Implementation
         PushNewStack(top2_, bottom2_);
         ConnectStacks(top1_, top2_);
         ReadStack(bottom2_);
-        read(wait);
+        Wait();
       end;
     end;
   end;

@@ -1,7 +1,5 @@
 ﻿Unit StudentMenu1x;
 
-// TODO: drop out students with certain amount of 2s
-
 Interface
   uses crt;
   
@@ -25,6 +23,12 @@ Interface
   procedure StudentMenu1xUI;
   
 Implementation
+
+  procedure Wait;
+  begin
+    repeat until KeyPressed;
+      while KeyPressed do ReadKey
+  end;
 
   procedure Push(Name: string; CalculusGrade, CSGrade, PhysicsGrade: integer);
   var NewNode: ^Student;
@@ -155,7 +159,7 @@ Implementation
   
   
   procedure StudentMenu1xUI;
-  var input, wait:integer; 
+  var input:integer; 
   var n:real; 
   begin
     input := -1;
@@ -178,7 +182,7 @@ Implementation
         writeln('Add student grades');
         writeln('------------------');
         AddStudentGrades();
-        read(wait);
+        Wait();
       end;
       
       if(input = 2) then
@@ -186,7 +190,7 @@ Implementation
         writeln('View all students');
         writeln('-----------------');
         ViewAllStudents();
-        read(wait);
+        Wait();
       end;
       
       if(input = 3) then
@@ -194,7 +198,7 @@ Implementation
         writeln('Bad Guys');
         writeln('--------');
         BadGuys();
-        read(wait);
+        Wait();
       end;
       
       if(input = 4) then
@@ -202,7 +206,7 @@ Implementation
         writeln('Retake exam');
         writeln('-----------');
         RetakeExam();
-        read(wait);
+        Wait();
       end;
       
       if(input = 5) then
@@ -210,7 +214,7 @@ Implementation
         writeln('Retake exam');
         writeln('-----------');
         DropOutStudent();
-        read(wait);
+        Wait();
       end;
     end;
   end;

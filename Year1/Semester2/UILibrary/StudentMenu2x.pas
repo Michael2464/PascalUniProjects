@@ -1,154 +1,203 @@
 ﻿Unit StudentMenu2x;
 
-// drop out students with certain amount of 2s
-// retake exams by changing 2s to 4s or 5s 
-
 Interface
-  uses Stack;
-  uses crt;
-  
-  Type PtrVertical = ^StackVertical;
-      StackVertical = record
-        ID: integer;
-        Name: string[20];
-        Next: PtrVertical;
-      end;
-  Type PtrHorizontal = ^StackHorizontal;
-      StackHorizontal = record
-        ID: integer;
-        Group: string[10];
-        Head: PtrVertical;
-        Next: PtrHorizontal;
-      end;
-      
-   var Horiz: PtrHorizontal;
-   
-   procedure CreateHorizontalMenu;
-   procedure CreateVerticalMenu(var vertical: PtrVertical);
-   procedure ChooseVerticalMenu;
-   procedure ReadVerticalMenu(var vertical: PtrVertical; n:integer);
-   procedure StudentMenu2xUI;
-   
+  uses crt, Stack;
+
+  Type PtrVertic = ^StackVertic;
+    StackVertic = record
+      Number: integer;
+      Name: string[20];
+      Next: PtrVertic;
+    end;
+    
+  PtrHoriz = ^StackHoriz;
+    StackHoriz = record
+      Number: integer;
+      Group: string[10];
+      Head: PtrVertic;
+      Next: PtrHoriz;
+    end;
+    
+ var Horiz: PtrHoriz;
+ 
+ procedure MakeMenuHorizon;
+ procedure MakeMenuVertic(var Vertic: PtrVertic);
+ procedure ChoiceMenuHorizon;
+ procedure PutMenuVertic(Vertic: PtrVertic; n: integer);
+ procedure StudentMenu2xUI;
+ 
+ 
 Implementation
 
-  procedure CreateHorizontalMenu;
-  var Vertic: PtrVertical;
-      top: PtrHorizontal;
+  procedure Wait;
+  begin
+    repeat until KeyPressed;
+      while KeyPressed do ReadKey
+  end; 
+
+  procedure MakeMenuHorizon;
+  var Vertic: PtrVertic;
+      Top: PtrHoriz;
       GroupValue: string[10];
-      ok: boolean;
-      k:integer;    
+      Ok: boolean;
+      k: integer;
   begin
-    ok := True; Horiz := NIL; k := 0;
-    while ok do
+    Ok := true; 
+    Horiz := Nil; 
+    k := 0;
+    while Ok do
     begin
-      write('Enter group name: ');
-      readln(GroupValue);
-      
-      if(GroupValue = 'n') or (GroupValue = 'N') or (GroupValue = 'н') or (GroupValue = 'Н') then
-        ok := False
+      readln();
+      write('Enter group value: ');
+      readln(GroupValue); 
+      k := k + 1;
+      if (GroupValue = 'n') or (GroupValue = 'N') then 
+        Ok:= false
       else
       begin
-        New(top); // allocate memory
-        top^.Next := Horiz;
-        top^.ID := k;
-        top^.Group := GroupValue;
-        CreateVerticalMenu(Vertic);
-        top^.Head := Vertic;
-        Horiz := top;
+        New(Top);
+        Top^.Next:= Horiz;
+        Top^.Number:= k;
+        Top^.Group:= GroupValue;
+        MakeMenuVertic(Vertic);
+        Top^.Head:= Vertic;
+        Horiz:= Top;
       end;
     end;
   end;
-  
-  procedure CreateVerticalMenu(var vertical: PtrVertical);
-  var top: PtrVertical;
-      ok: boolean;
+
+  procedure MakeMenuVertic(var Vertic: PtrVertic);
+  var Top: PtrVertic;
+      Ok: boolean;
       NameValue: string[20];
-      n: integer;
+      k, i: integer;
   begin
-    ok := true; 
-    vertical := NIL; 
-    n := 0;
-    
-    while ok do
+    Ok := True; 
+    Vertic := Nil; 
+    k := 0;
+    while Ok do
     begin
-      write('Enter students name: ');
-      readln(NameValue);
-      if(NameValue = 'n') or (NameValue = 'N') or (NameValue = 'н') or (NameValue = 'Н') then
-        ok := false
+      write('Enter student name: ');
+      readln(NameValue); 
+      k := k + 1;
+      if (NameValue = 'n') or (NameValue = 'N') then 
+        Ok := False
       else
       begin
-        New(top);
-        top^.Next := vertical;
-        top^.ID := n;
-        top^.Name := NameValue;
-        vertical := top;
+        New(Top);
+        Top^.Next:= Vertic;
+        Top^.Number:= k;
+        Top^.Name:= NameValue;
+        Vertic:= Top;
       end;
     end;
   end;
-  
-  procedure ChooseVerticalMenu;
-  var top: PtrHorizontal;
-      n,k: integer;
-  begin
-    top := Horiz; n:= 0;
-    while top <> NIL do
-    begin
-      n := n + 1;
-      writeln(n:5, '.', top^.Group:6);
-      top := top^.Next;
-    end;
-    GoToXY(30, 0);
-    writeln('Choose menu option pls: ');
-    GoToXY(39, 1);
-    top := Horiz;
-    k := Horiz^.ID + 1;
-    while (top^.ID + n <> k) do
-      top := top^.Next;
     
-    ReadVerticalMenu(top^.Head, n);
-  end;
-  
-  procedure ReadVerticalMenu(var vertical: PtrVertical; n:integer);
-  var top: PtrVertical;
-      posX, posY: integer;
+  procedure ChoiceMenuHorizon;
+  var Top: PtrHoriz;
+      n, k: integer;
+      Ok: boolean;
   begin
-    top := vertical; posY := 2; posX := 12 * n - 7;
-    while top <> NIL do
+    Top := Horiz; 
+    n := 0; 
+    Ok := true;
+    while Top <> Nil do
     begin
-      posY := posY + 1;
-      GoToXY(posX, posY);
-      write(top^.Name);
-      top := top^.Next;
+      n:= n + 1;
+      write(n:5, '.', Top^.Group:3, '        ');
+      Top:= Top^.Next;
+    end;
+    while Ok do
+    begin
+      TextBackground(white);
+      GoToXY(40, 19); writeln('Enter 0 to exit');
+      TextBackground(black);
+      GoToXY(40, 20); writeln('Choose menu index: ');
+      GoToXY(40, 21); read(n);
+      GoToXY(40, 21); ClearLine;
+      if n = 0 then
+      begin
+        Ok := False;
+      end
+      else
+      begin
+        GoToXY(40, 3); ClearLine;
+        GoToXY(40, 4); ClearLine;
+        GoToXY(40, 5); ClearLine;
+        GoToXY(40, 6); ClearLine;
+        GoToXY(40, 7); ClearLine;
+        GoToXY(40, 8); ClearLine;
+        GoToXY(40, 9); ClearLine;
+        GoToXY(40, 10); ClearLine;
+        GoToXY(40, 11); ClearLine;
+        GoToXY(40, 12); ClearLine;
+        GoToXY(40, 13); ClearLine;
+        GoToXY(40, 14); ClearLine;
+        GoToXY(40, 15); ClearLine;
+        GoToXY(40, 16); ClearLine;
+        GoToXY(40, 17); ClearLine;
+        GoToXY(40, 18); ClearLine;
+        
+        Top := Horiz;
+        k := 1 + Horiz^.Number;
+        while(Top^.Number + n <> k) do 
+          Top := Top^.Next;
+        PutMenuVertic(Top^.Head, n);
+      end;
     end;
   end;
-  
-  procedure StudentMenu2xUI;
-  var input, wait:integer; 
-  var n:real;
+    
+  procedure PutMenuVertic(Vertic: PtrVertic; n: integer);
+  var Top: PtrVertic;
+      PosX, PosY: integer;
   begin
-    input := -1;
-    while(input <> 0) do
+    Top := Vertic; 
+    PosY := 2; 
+    PosX := 10;
+    while Top <> nil do
     begin
-      ClrScr;
-      writeln('Student Menu');
-      writeln('Enter option:');
-      writeln('1) Create');
-      writeln('2) View');
-      writeln('0) Back');
+      PosY := PosY + 1;
+      PosX := (n - 1) * 17 + 1;
+      GotoXY(PosX, PosY);
+      Write(' ');
+      Write(Top^.Name);
+      Write(' ');
+      Top := Top^.Next;
+    end;
+  end;
+    
+  procedure StudentMenu2xUI;
+  var input:integer; 
+      Ok:boolean;
+  begin
+    Ok := true;
+    while Ok do
+    begin
+      clrscr;
+      writeln('[Student Menu 2x]:');
+      writeln('1: Create menu');
+      writeln('2: View menu');
+      writeln('0: Exit');
       read(input);
       
-      if(input = 1) then
-      begin
-        ClrScr;
-        CreateHorizontalMenu();
-      end;
-      
-      if(input = 2) then
-      begin
-        ClrScr;
-        ChooseVerticalMenu();
-      end;
-    end;
+      ClrScr;
+      case input of
+        1: begin 
+            Clrscr;
+            MakeMenuHorizon;
+           end;
+               
+        2: begin
+            Clrscr;
+            ChoiceMenuHorizon;
+            Wait;
+           end;
+               
+        0: Ok:= false;
+      end
+    end
   end;
-  
 end.
+    
+    
+    

@@ -9,6 +9,8 @@ uses StudentMenu1x;
 uses StudentMenu2x;
 uses StudentFile;
 uses Tree;
+uses BinaryTree;
+uses BinaryTreeSearch;
 uses crt;
 
 var input:integer;
@@ -34,6 +36,8 @@ begin
     writeln('9) Student Menu 2x');
     writeln('10) Student File');
     writeln('11) Tree');
+    writeln('12) Binary Tree');
+    writeln('13) Binary Tree Search');
     writeln('---------------');
     writeln('0) Exit');
     read(input);
@@ -50,6 +54,8 @@ begin
       9: StudentMenu2xUI();
       10: StudentFileUI();
       11: TreeUI();
+      12: BinaryTreeUI();
+      13: BinaryTreeSearchUI();
     end;
   end;
   
