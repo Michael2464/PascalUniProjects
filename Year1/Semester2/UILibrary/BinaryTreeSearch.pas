@@ -3,7 +3,6 @@
 Interface
   uses crt;
 
-
   Type NodePtr = ^Node;
     Node = record
       Key: byte;
@@ -53,12 +52,13 @@ Implementation
   procedure MakeTree(var Top: NodePtr);
   var i, n, InputKey:byte;
   begin
-    Write('Введите количество узлов в дереве: ');
+    write('Enter node amount in a tree: ');
     read(n);
-    Top:=Nil;
+    Top := Nil;
+    
     for i:= 1 to n do
     begin
-    Write('Введите число: ');
+    write('Enter a value: ');
     read(InputKey);
       MakeNode(InputKey,Top)
     end;
@@ -137,15 +137,15 @@ Implementation
     while Ok do
     begin
       ClrScr;
-      writeln('Выберете пункт');
-      writeln('1:  Создание дерева');
-      writeln('2:  Обход сверху вниз');
-      writeln('3:  Обход снизу вверх');
-      writeln('4:  Обход вершин на одном уровня');
-      writeln('5:  Высота дерева');
-      writeln('6:  Просмотр дерева');
-      writeln('7:  Найти Узел');
-      writeln('0:  Выход');
+      writeln('[Binary Tree Search]:');
+      writeln('1) Create tree');
+      writeln('2) View up down');
+      writeln('3) View down up');
+      writeln('4) View same level nodes');
+      writeln('5) Tree height');
+      writeln('6) View tree');
+      writeln('7) Find node');
+      writeln('0) Exit');
       readln(input);
       ClrScr;
           
@@ -154,23 +154,23 @@ Implementation
             MakeTree(Top);
            end;
         2: begin
-                Writeln('Получили: ');
                 WayUpDown(Top);
-                Wait;
+                writeln();
+                Wait();
                end;
             3: begin
-                Writeln('Получили: ');
                 WayDownUp(Top);
-                Wait;
+                writeln();
+                Wait();
                end;
             4: begin
-                Write('Введите уровень: ');
+                Write('Enter node level(byte): ');
                 readln(Level);
                 WayHoriz(Top, Level);
                 Wait;
                end;
             5: begin
-                writeln('Высота вашего дерева: ', TreeLength(Top));
+                writeln('Tree height: ', TreeLength(Top));
                 Wait;
                end;
             6: begin
@@ -178,12 +178,12 @@ Implementation
                 Wait;
                end;
             7: begin
-                Write('Введите номер искомого узла: ');
+                Write('Enter node (byte): ');
                 readln(Level);
                 if SearchNode(Top, Level) = nil then
-                  Writeln('Узла с таким номером не обнаружено')
+                  Writeln('Node does not exist :(')
                 else 
-                  Writeln('Узел найден');
+                  Writeln('Node is found :)');
                 wait;
                end;
             0: Ok:= false;

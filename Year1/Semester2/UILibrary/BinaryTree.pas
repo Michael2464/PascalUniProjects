@@ -54,7 +54,7 @@ Implementation
       Key: char;
   begin
     GoToXY(1, 2); write('Fill the tree randomly?: ');
-    GoToXY(1, 3); readln(Key); ClrScr;
+    readln(Key); ClrScr;
     if Key in ['y', 'Y'] then 
     begin
       GoToXY(1, 2); write('Node amount: '); 
@@ -69,10 +69,12 @@ Implementation
     end
     else 
     begin
-      GoToXY(1, 2); write('Количество ветвей: '); readln(n); ClrScr; Top := nil;
+      GoToXY(1, 2); write('Node amount: '); 
+      readln(n); ClrScr; 
+      Top := nil;
       for i := 1 to n do
         begin
-          GoToXY(1, 2); write('Значение (', i, '/', n, ') ветки: '); 
+          GoToXY(1, 2); write('Value of (', i, '/', n, ') node: '); 
           readln(InputKey); 
           ClrScr();
           MakeNode(InputKey, Top);
@@ -152,7 +154,7 @@ end;
 procedure DeleteSubTree(Top: NodePtr);
 var Tmp: NodePtr; DeleteKey: byte;
   begin
-    GoToXY(1, 2); write('Удаляемая ветка: '); readln(DeleteKey); ClrScr;
+    GoToXY(1, 2); write('Enter node to delete: '); readln(DeleteKey); ClrScr;
     Tmp := SearchNode(Top, DeleteKey);
     if Tmp <> nil then 
       begin

@@ -42,11 +42,11 @@ Implementation
     GoToXY(40, 19); readln(Leaf^.Name);
     GoToXY(30, 18); writeln(' '); ClearLine;
     GoToXY(40, 19); writeln(' ');
-    GoToXY(25, 20); write(Leaf^.Name, ' has left subtree?: ');
+    GoToXY(25, 20); write(Leaf^.Name, ' has left subtree?: '); 
     GoToXY(40, 21); readln(Key);
-    GoToXY(25, 20); writeln(' ');
+    GoToXY(25, 20); writeln(' '); ClearLine;
     GoToXY(40, 21); writeln(' ');
-    if Key in ['y', 'Y', 'н', 'Н'] then
+    if Key in ['y', 'Y'] then
     begin
       new(Top); 
       Leaf^.Left := Top; 
@@ -227,7 +227,7 @@ Implementation
     
     if Ok = True then
     begin
-      write('Node ', Symbol, ' is not found :('); Wait;
+      writeln('Node ', Symbol, ' is not found :('); Wait;
     end
     else
     begin
