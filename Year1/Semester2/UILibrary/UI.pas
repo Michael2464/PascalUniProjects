@@ -11,6 +11,7 @@ uses StudentFile;
 uses Tree;
 uses BinaryTree;
 uses BinaryTreeSearch;
+uses TreeIO;
 uses crt;
 
 var input:integer;
@@ -38,6 +39,7 @@ begin
     writeln('11) Tree');
     writeln('12) Binary Tree');
     writeln('13) Binary Tree Search');
+    writeln('14) Tree I/O');
     writeln('---------------');
     writeln('0) Exit');
     read(input);
@@ -56,6 +58,7 @@ begin
       11: TreeUI();
       12: BinaryTreeUI();
       13: BinaryTreeSearchUI();
+      14: TreeIOUI();
     end;
   end;
   

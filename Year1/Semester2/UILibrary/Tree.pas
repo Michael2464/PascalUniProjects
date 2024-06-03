@@ -287,50 +287,39 @@ Implementation
       writeln('8) Delete subtree');
       writeln('0) Exit');
       readln(input);
-      clrscr;
+      ClrScr();;
       
       case input of
         1: begin
-            ClrScr();
             MakeTree(Top);
            end;
         2: begin
-            ClrScr();
             WayUpDown(Top);
-            Wait();
            end;
         3: begin
-            ClrScr();
             WayDownUp(Top);
-            Wait();
            end;
         4: begin
-            ClrScr();
+            write('Enter the level: ');
+            readln(Level);
             WayHoriz(Top, Level);
-            Wait();
            end;
         5: begin
-            ClrScr();
             writeln(TreeLength(Top));
-            Wait();
            end;
         6: begin
-            ClrScr();
             ViewTree(Top);
-            Wait();
            end;
         7: begin
-            ClrScr();
             AddSubTree(Top);
-            Wait();
            end;
         8: begin
-            ClrScr();
             DeleteSubTree(Top);
-            Wait();
            end;
         0: Ok:= false;
       end;
+      Wait();
+      
     end;
   end;
 end.
